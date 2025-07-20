@@ -1,0 +1,163 @@
+{% extends "header2.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .tipview-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        padding: 32px 0 32px 0;
+        width: 100vw;
+    }
+    .tipview-frame {
+        background: rgba(36, 44, 66, 0.97);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.18);
+        padding: 28px 24px 22px 24px;
+        max-width: 700px;
+        width: 100%;
+        color: #e6eaf3;
+        margin: 32px auto 0 auto;
+        border: 1.5px solid rgba(75,123,236,0.13);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .tipview-frame h1 {
+        text-align: center;
+        color: #4b7bec;
+        margin-bottom: 18px;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background: none;
+        color: #e6eaf3;
+        font-size: 1rem;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(44,54,74,0.10);
+    }
+    table th, table td {
+        padding: 12px 10px;
+        border: 1px solid #4b7bec;
+        text-align: left;
+    }
+    table th {
+        background: #4b7bec;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        font-size: 1.05rem;
+    }
+    table td {
+        color: #e6eaf3;
+        background: rgba(44,54,74,0.85);
+    }
+    table tr:nth-child(even) td {
+        background: rgba(75,123,236,0.10);
+    }
+    table tr:nth-child(odd) td {
+        background: rgba(36,44,66,0.85);
+    }
+    table tr:hover td {
+        background: rgba(75,123,236,0.18);
+        color: #fff;
+    }
+    .action-btn {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-size: 0.97rem;
+        font-weight: 600;
+        text-decoration: none;
+        margin-right: 8px;
+        transition: background 0.2s, color 0.2s;
+    }
+    .edit-btn {
+        background: #4b7bec;
+        color: #fff;
+        border: none;
+    }
+    .edit-btn:hover {
+        background: #283e6d;
+        color: #fff;
+    }
+    .delete-btn {
+        background: #e74c3c;
+        color: #fff;
+        border: none;
+    }
+    .delete-btn:hover {
+        background: #c0392b;
+        color: #fff;
+    }
+    .no-data {
+        text-align: center;
+        font-size: 1rem;
+        color: #b8c7e0;
+    }
+    .home-btn {
+        display: inline-block;
+        margin-top: 24px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding: 10px 32px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.18s;
+        box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    }
+    .home-btn:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: scale(1.03);
+    }
+</style>
+<div class="tipview-bg">
+    <div class="tipview-frame">
+        <h1>Manage Your Tips</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tip</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tip in tips %}
+                <tr>
+                    <td>{{ tip.tip|safe }}</td>
+                    <td>{{ tip.date_created|date:"d M Y, h:i A" }}</td>
+                    <td>
+                        <a href="{% url 'edit_tip' tip.id %}" class="action-btn edit-btn">Edit</a>
+                        <a href="{% url 'delete_tip' tip.id %}" class="action-btn delete-btn">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="no-data">No tips available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'experthome' %}" class="home-btn">Home</a>
+    </div>
+</div>
+{% endblock %}

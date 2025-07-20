@@ -1,0 +1,38 @@
+{% extends "header2.html" %}
+{% load static %}
+{% block content %}
+<div class="container py-5" style="margin-top: 100px; min-height: 80vh;">
+    <h2 class="text-success mb-4 text-center">Mock Interview Results for {{ user.email }}</h2>
+    {% if scores %}
+        <div class="row g-4">
+            {% for score in scores %}
+            <div class="col-md-6">
+                <div class="card shadow-sm border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <strong>Category:</strong> {{ score.question_category }}
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Question:</strong> {{ score.question_text }}</p>
+                        <p><strong>Speech Confidence:</strong> {{ score.speech_confidence }}%</p>
+                        <p><strong>Facial Confidence:</strong> {{ score.facial_confidence }}%</p>
+                        <p><strong>Combined Confidence:</strong> 
+                            <span class="fw-bold text-success">{{ score.combined_confidence }}%</span>
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted small">
+                        Attempted on {{ score.created_at|date:"Y-m-d H:i" }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">No results available for this user.</div>
+    {% endif %}
+    <div class="text-center mt-5">
+        <a href="{% url 'view_users_list' %}" class="btn btn-outline-secondary">
+            ← Back to User List
+        </a>
+    </div>
+</div>
+{% endblock %}

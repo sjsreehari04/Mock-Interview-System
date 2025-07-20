@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Interview System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2f80ed;
+            --primary-dark: #1c5dbb;
+            --bg: #0b0f19;
+            --white: #ffffff;
+            --text: #e0e0e0;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            background-image: url("{% static 'user/assets/images/bg-01.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)),
+                        url('https://images.unsplash.com/photo-1555949963-aa79dcee981f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1650&q=80')
+                        center/cover no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+            padding: 0 20px;
+            backdrop-filter: blur(2px);
+        }
+
+        header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: var(--primary-dark);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        section.features {
+            padding: 80px 20px;
+            background-color: var(--bg);
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+        }
+
+        .feature h3 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .feature h3 i {
+            margin-right: 10px;
+        }
+
+        .feature p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        footer {
+            padding: 25px;
+            background: #1c1c1e;
+            color: #aaa;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mock Interview System</h1>
+        <p>Sharpen your interview skills with AI-driven mock sessions, confidence tracking, and expert support — all in one platform.</p>
+        <a href="{% url 'login' %}" class="btn">Login to Get Started</a>
+    </header>
+
+    <section class="features">
+        <h2>Why Choose Us?</h2>
+        <div class="feature-grid">
+            <div class="feature">
+                <h3><i class="fas fa-face-smile-beam"></i> Emotion Detection</h3>
+                <p>Advanced facial recognition to identify and analyze your expressions during interviews.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-microphone-alt"></i> Speech Feedback</h3>
+                <p>Get instant metrics on your speaking rate, tone, and clarity using AI-driven audio analysis.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-chart-line"></i> Expert Insights</h3>
+                <p>Receive personalized evaluations and suggestions from seasoned interview professionals.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-brain"></i> Real-Time Practice</h3>
+                <p>Experience mock technical and HR interviews with real-time AI and human feedback.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2025 MockInterviewSystem. All rights reserved.
+    </footer>
+</body>
+</html>

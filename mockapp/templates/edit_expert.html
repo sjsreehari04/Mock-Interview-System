@@ -1,0 +1,162 @@
+{% extends "header2.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .edit-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        padding: 40px 0;
+    }
+    .edit-frame {
+        background: rgba(36, 44, 66, 0.98);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.18);
+        padding: 22px 18px 14px 18px;
+        max-width: 340px;
+        width: 100%;
+        color: #e6eaf3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1.5px solid rgba(75,123,236,0.13);
+        animation: fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) both;
+    }
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(40px);}
+        100% { opacity: 1; transform: translateY(0);}
+    }
+    .edit-container {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        color: inherit;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+    }
+    .edit-container h1 {
+        text-align: center;
+        color: #4b7bec;
+        margin-bottom: 10px;
+        font-size: 1.18rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    }
+    .form-control,
+    .edit-container p {
+        margin-bottom: 13px;
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .form-control label,
+    .edit-container p label {
+        font-weight: 600;
+        color: #b8c7e0;
+        font-size: 0.93rem;
+        margin-bottom: 3px;
+        display: block;
+        letter-spacing: 0.2px;
+    }
+    .form-control input,
+    .form-control select,
+    .edit-container p input,
+    .edit-container p select {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 7px 8px;
+        border: 1.5px solid #4b7bec;
+        border-radius: 7px;
+        font-size: 12px;
+        background: rgba(245,247,250,0.13);
+        color: #e6eaf3;
+        transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+        box-shadow: 0 1px 4px rgba(75,123,236,0.04);
+        margin-top: 2px;
+    }
+    .form-control input:focus,
+    .form-control select:focus,
+    .edit-container p input:focus,
+    .edit-container p select:focus {
+        border-color: #a7bfff;
+        outline: none;
+        background: rgba(245,247,250,0.22);
+        box-shadow: 0 0 8px 0 rgba(75,123,236,0.13);
+    }
+    .save-btn {
+        width: 100%;
+        min-width: 0;
+        max-width: 320px;
+        box-sizing: border-box;
+        padding: 8px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.98rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+        transition: background 0.3s, transform 0.18s, box-shadow 0.3s;
+        margin-top: 8px;
+        position: relative;
+        overflow: hidden;
+        display: block;
+    }
+    .save-btn:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 4px 16px rgba(75,123,236,0.18);
+    }
+    .back-btn {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        max-width: 320px;
+        box-sizing: border-box;
+        padding: 10px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.18s;
+        margin-top: 10px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    .back-btn:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+</style>
+<div class="edit-bg">
+    <div class="edit-frame">
+        <div class="edit-container">
+            <h1>Edit Profile</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+            <a href="javascript:history.back()" class="back-btn">Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

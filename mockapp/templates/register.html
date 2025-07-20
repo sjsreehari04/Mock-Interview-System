@@ -1,0 +1,200 @@
+{% load static %}
+{% block content %}
+<style>
+    .register-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(120deg, #232946 60%, #1a1f2b 100%),
+                    url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+    }
+    .register-frame {
+        background: linear-gradient(135deg, rgba(36,44,66,0.98) 80%, rgba(75,123,236,0.12) 100%);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-radius: 22px;
+        box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.22);
+        padding: 30px 26px 22px;
+        max-width: 340px;
+        width: 100%;
+        color: #e6eaf3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) both;
+    }
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(40px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    .register-container {
+        width: 100%;
+    }
+    .register-container h2 {
+        text-align: center;
+        color: #4b7bec;
+        margin-bottom: 14px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    }
+    .form-control {
+        margin-bottom: 13px;
+        width: 100%;
+        max-width: 290px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .form-control label {
+        font-weight: 600;
+        color: #b8c7e0;
+        font-size: 0.97rem;
+        margin-bottom: 3px;
+        display: block;
+    }
+    .form-control input,
+    .form-control select {
+        width: 100%;
+        padding: 10px 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        background: rgba(255,255,255,0.08);
+        color: #e6eaf3;
+        box-shadow: 0 1px 8px rgba(75,123,236,0.08);
+    }
+    .form-control input:focus,
+    .form-control select:focus {
+        border: 1.5px solid #4b7bec;
+        background: rgba(245,247,250,0.18);
+        box-shadow: 0 0 8px rgba(75,123,236,0.13);
+    }
+    .register-btn {
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.08rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+        margin-top: 8px;
+    }
+    .register-btn:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 4px 16px rgba(75,123,236,0.18);
+    }
+    #password-strength {
+        margin-top: 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+</style>
+
+<div class="register-bg">
+    <div class="register-frame">
+        <div class="register-container">
+            <h2>Register</h2>
+            <form class="register-form" method="POST">
+                {% csrf_token %}
+                <div class="form-control">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-control">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-control">
+                    <label for="contact">Contact</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+                <div class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-control">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <div id="password-strength"></div>
+                </div>
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector(".register-form").addEventListener("submit", function(e) {
+        const name = document.getElementById("name").value.trim();
+        const contact = document.getElementById("contact").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const dob = document.getElementById("dob").value;
+        const gender = document.getElementById("gender").value;
+
+        let errors = [];
+
+        if (name.length < 2) errors.push("Name must be at least 2 characters.");
+        if (!/^\d{10}$/.test(contact)) errors.push("Contact must be a 10-digit number.");
+        if (!/^\S+@\S+\.\S+$/.test(email)) errors.push("Invalid email format.");
+        if (password.length < 6) errors.push("Password must be at least 6 characters.");
+        if (!dob) errors.push("Please select your date of birth.");
+        if (!gender) errors.push("Please select your gender.");
+
+        if (errors.length > 0) {
+            e.preventDefault();
+            alert(errors.join("\n"));
+        }
+    });
+
+    const passwordInput = document.getElementById("password");
+    const strengthDisplay = document.getElementById("password-strength");
+
+    passwordInput.addEventListener("input", () => {
+        const val = passwordInput.value;
+        let strength = "Too weak";
+        let color = "#ff4d4d";
+
+        const regexes = [
+            /.{6,}/,
+            /[A-Z]/,
+            /[a-z]/,
+            /[0-9]/,
+            /[!@#\$%\^&\*]/
+        ];
+
+        const passed = regexes.reduce((acc, regex) => acc + regex.test(val), 0);
+
+        if (passed <= 2) {
+            strength = "Weak";
+            color = "#f39c12";
+        } else if (passed === 3 || passed === 4) {
+            strength = "Moderate";
+            color = "#3498db";
+        } else if (passed === 5) {
+            strength = "Strong";
+            color = "#2ecc71";
+        }
+
+        strengthDisplay.textContent = `Strength: ${strength}`;
+        strengthDisplay.style.color = color;
+    });
+</script>
+{% endblock %}

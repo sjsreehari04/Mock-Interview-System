@@ -1,0 +1,171 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: none;
+        margin: 0;
+        padding: 0;
+        color: #fff;
+    }
+    .expertreg-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        padding: 60px 0;
+    }
+    .register-frame {
+        background: rgba(36, 44, 66, 0.98);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.18);
+        padding: 22px 18px 14px 18px;
+        max-width: 340px;
+        width: 100%;
+        color: #e6eaf3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1.5px solid rgba(75,123,236,0.13);
+    }
+    .register-container {
+        width: 100%;
+        color: inherit;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+    }
+    .register-container h2 {
+        text-align: center;
+        color: #4b7bec;
+        margin-bottom: 10px;
+        font-size: 1.18rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .form-control {
+        margin-bottom: 7px;
+    }
+    .form-control label {
+        display: block;
+        margin-bottom: 1px;
+        font-weight: 600;
+        color: #b8c7e0;
+        font-size: 0.93rem;
+    }
+    .form-control input,
+    .form-control select {
+        width: 100%;
+        padding: 7px 8px;
+        border: 1.5px solid #4b7bec;
+        border-radius: 7px;
+        font-size: 12px;
+        background: rgba(245,247,250,0.13);
+        color: #e6eaf3;
+        transition: border-color 0.3s, background 0.3s;
+    }
+    .form-control input:focus,
+    .form-control select:focus {
+        border-color: #a7bfff;
+        outline: none;
+        background: rgba(245,247,250,0.22);
+        box-shadow: 0 0 5px rgba(75,123,236,0.10);
+    }
+    .register-btn {
+        width: 100%;
+        padding: 8px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.98rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+        transition: background 0.3s, transform 0.18s, box-shadow 0.3s;
+        margin-top: 2px;
+    }
+    .register-btn:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 4px 16px rgba(75,123,236,0.18);
+    }
+    .register-container p {
+        text-align: center;
+        margin-top: 6px;
+        font-size: 11px;
+        color: #b8c7e0;
+    }
+    .register-container p a {
+        color: #4b7bec;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .register-container p a:hover {
+        text-decoration: underline;
+    }
+</style>
+<div class="expertreg-bg">
+    <div class="register-frame">
+        <div class="register-container">
+            <h2>Expert Registration</h2>
+            <form class="register-form" method="POST" action="">
+                {% csrf_token %}
+                <div class="form-control">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                </div>
+                <div class="form-control">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" class="form-control" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" class="form-control" required>
+                </div>
+                <div class="form-control">
+                    <label for="contact">Contact</label>
+                    <input type="text" id="contact" name="contact" class="form-control" placeholder="Contact number" required>
+                </div>
+                <div class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-control">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+                <div class="form-control">
+                    <label for="field">Field</label>
+                    <select id="field" name="field" class="form-control" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="IT">IT</option>
+                        <option value="HR">HR</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label for="experience">Experience (years)</label>
+                    <input type="number" id="experience" name="experience" class="form-control" placeholder="Years" min="0" required>
+                </div>
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

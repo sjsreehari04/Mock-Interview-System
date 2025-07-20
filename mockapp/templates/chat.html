@@ -1,0 +1,324 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed !important;
+        background-size: cover !important;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #e6eaf3;
+    }
+    .chat-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 80px;
+    }
+    .chat-container {
+        margin: 0 auto;
+        max-width: 1100px;
+        width: 100%;
+        display: flex;
+        height: 75vh;
+        border-radius: 16px;
+        overflow: hidden;
+        background: rgba(28, 32, 48, 0.92);
+        box-shadow: 0 8px 32px 0 rgba(20, 24, 40, 0.13);
+        border: 1px solid rgba(60,90,140,0.18);
+    }
+    .sidebar {
+        width: 30%;
+        background: rgba(36, 44, 66, 0.98);
+        color: #e6eaf3;
+        overflow-y: auto;
+        border-radius: 16px 0 0 16px;
+        border-right: 1px solid rgba(60,90,140,0.10);
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+    .sidebar h5 {
+        margin: 0;
+        padding: 24px 0 12px 0;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-align: center;
+        background: rgba(44, 54, 74, 0.98);
+        color: #b8c7e0;
+    }
+    #experts-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex: 1;
+    }
+    .user {
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(60,90,140,0.08);
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    .user:hover {
+        background: rgba(75,123,236,0.13);
+        color: #4b7bec;
+    }
+    .chat-area {
+        width: 70%;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        background: rgba(36, 44, 66, 0.92);
+        border-radius: 0 16px 16px 0;
+    }
+    .chat-header {
+        background: rgba(44, 54, 74, 0.98);
+        color: #e6eaf3;
+        padding: 18px 24px;
+        border-radius: 0 16px 0 0;
+        font-weight: 600;
+        font-size: 1.15rem;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .chat-box {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 24px 24px 12px 24px;
+        background: transparent;
+        border-radius: 0;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .message {
+        padding: 12px 18px 18px 18px;
+        margin: 5px 0;
+        border-radius: 10px;
+        max-width: 90%;
+        word-wrap: break-word;
+        font-size: 1rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+        background: rgba(245,247,250,0.10);
+        color: #e6eaf3;
+        position: relative;
+        display: inline-block;
+    }
+    .you {
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        align-self: flex-end;
+        text-align: right;
+        border-bottom-right-radius: 2px;
+    }
+    .expert-msg {
+        background: rgba(245,247,250,0.13);
+        color: #e6eaf3;
+        align-self: flex-start;
+        text-align: left;
+        border-bottom-left-radius: 2px;
+    }
+    .message small {
+        display: block;
+        position: static;
+        margin-top: 6px;
+        color: #b8c7e0;
+        font-size: 0.85em;
+        background: transparent;
+        padding: 0 2px;
+        opacity: 0.95;
+        z-index: 2;
+        white-space: normal;
+        text-align: right;
+    }
+    .you small {
+        color: #c7e0ff;
+        text-align: right;
+    }
+    .expert-msg small {
+        color: #b8c7e0;
+        text-align: left;
+    }
+    .chat-input {
+        display: flex;
+        gap: 0.5rem;
+        padding: 18px 24px;
+        background: rgba(44, 54, 74, 0.98);
+        border-top: 1px solid rgba(60,90,140,0.10);
+        align-items: center;
+        border-radius: 0 0 16px 0;
+    }
+    .chat-input input {
+        flex: 1;
+        padding: 14px 16px;
+        border-radius: 20px;
+        border: 1.5px solid #3a4668;
+        font-size: 1rem;
+        background: rgba(245,247,250,0.13);
+        color: #e6eaf3;
+        transition: border-color 0.3s, background 0.3s;
+        margin-bottom: 0;
+        min-height: 48px;
+        max-height: 120px;
+    }
+    .chat-input input::placeholder {
+        color: #7a869a;
+    }
+    .chat-input input:focus {
+        border-color: #4b7bec;
+        background: rgba(245,247,250,0.22);
+        outline: none;
+        color: #222b3a;
+        background-color: #fff;
+    }
+    .chat-input button {
+        background: linear-gradient(135deg, #4b7bec 60%, #355c7d 100%);
+        color: #fff;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+        box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    }
+    .chat-input button:hover {
+        background: linear-gradient(135deg, #355c7d 60%, #4b7bec 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+    @media (max-width: 900px) {
+        .chat-container {
+            flex-direction: column;
+            height: auto;
+            min-height: 70vh;
+        }
+        .sidebar, .chat-area {
+            width: 100%;
+            border-radius: 16px 16px 0 0;
+        }
+        .chat-area {
+            border-radius: 0 0 16px 16px;
+        }
+    }
+</style>
+<div class="chat-bg">
+    <div class="chat-container">
+        <!-- Sidebar with expert list -->
+        <div class="sidebar">
+            <h5>Experts</h5>
+            <div id="experts-list">
+                {% for expert in experts %}
+                    <div class="user" onclick="loadChat({{ expert.Login_id.id }}, '{{ expert.name }}')">
+                        {{ expert.name }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Chat area -->
+        <div class="chat-area">
+            <div class="chat-header" id="chat-title">Select an expert to chat</div>
+            <div id="chat-box" class="chat-box"></div>
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type your message..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let senderId = "{{ request.session.user_id }}"; // Logged-in user's ID
+    let receiverId = null;
+
+    function getCSRFToken() {
+        let cookieValue = null;
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.startsWith('csrftoken=')) {
+                cookieValue = cookie.substring('csrftoken='.length, cookie.length);
+                break;
+            }
+        }
+        return cookieValue;
+    }
+
+    // Load chat messages dynamically
+    function loadChat(id, name) {
+        receiverId = id;
+        $('#chat-title').text("Chat with " + name);
+        $('#chat-box').html('<em>Loading...</em>');
+
+        $.get(`/get_chat/${id}/`, function (data) {
+            let chatHtml = '';
+            data.forEach(msg => {
+                let isSender = msg.sender_id == senderId;
+                // Format timestamp to local time for display
+                let messageTime = formatTimestamp(msg.timestamp);
+                chatHtml += `
+                    <div class="message ${isSender ? 'you' : 'expert-msg'}">
+                        <strong>${isSender ? 'You' : name}:</strong> ${msg.message}
+                        <br><small>${messageTime}</small>
+                    </div>`;
+            });
+            $('#chat-box').html(chatHtml);
+            $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+        }).fail(function () {
+            $('#chat-box').html('<div class="text-danger">Failed to load chat.</div>');
+        });
+    }
+
+    // Format timestamp string to local time
+    function formatTimestamp(ts) {
+        // Try to parse as ISO string, fallback to original if fails
+        let d = new Date(ts);
+        if (!isNaN(d.getTime())) {
+            return d.toLocaleString();
+        }
+        return ts;
+    }
+
+    // Send a message
+    function sendMessage() {
+        const message = $('#message-input').val().trim();
+        if (!message || !receiverId) {
+            alert('Please select a receiver and type a message.');
+            return;
+        }
+
+        // No spinner
+        $.ajax({
+            url: '/send_message/',
+            method: 'POST',
+            headers: { 'X-CSRFToken': getCSRFToken() },
+            data: JSON.stringify({ receiver_id: receiverId, message: message }),
+            contentType: 'application/json',
+            success: function () {
+                const messageTime = formatTimestamp(new Date());
+                const newMessage = `
+                    <div class="message you">
+                        <strong>You:</strong> ${message}
+                        <br><small>${messageTime}</small>
+                    </div>`;
+                $('#chat-box').append(newMessage);
+                $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+                $('#message-input').val('');
+            },
+            error: function () {
+                alert('Failed to send message.');
+            }
+        });
+    }
+
+    function refreshChat() {
+        if (receiverId) {
+            loadChat(receiverId, $('#chat-title').text().replace("Chat with ", ""));
+        }
+    }
+
+    setInterval(refreshChat, 5000);
+</script>
+{% endblock %}

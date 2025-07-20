@@ -1,0 +1,114 @@
+{% extends "header2.html" %}
+{% load static %}
+{% block content %}
+<style>
+.tips-page-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+    padding-top: 80px;
+}
+.tips-container {
+    background: rgba(24, 28, 38, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 40px 32px 32px 32px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(20, 24, 40, 0.18);
+    width: 100%;
+    max-width: 480px;
+    color: #e6eaf3;
+    border: 1px solid rgba(60,90,140,0.18);
+}
+.tips-container h1 {
+    text-align: center;
+    color: #e6eaf3;
+    margin-bottom: 24px;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+.tips-container .form-control {
+    margin-bottom: 22px;
+}
+.tips-container .form-control textarea {
+    width: 100%;
+    padding: 18px;
+    border: 1.5px solid #3a4668;
+    border-radius: 10px;
+    font-size: 1rem;
+    resize: vertical;
+    height: 140px;
+    background: rgba(245,247,250,0.13);
+    color: #222b3a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+}
+.tips-container .form-control textarea::placeholder {
+    color: #7a869a;
+    opacity: 1;
+}
+.tips-container .form-control textarea:focus {
+    border-color: #090d17;
+    background: rgba(245,247,250,0.22);
+    box-shadow: 0 0 12px 0 rgba(75,123,236,0.10);
+    outline: none;
+}
+.tips-container .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #355c7d 60%, #4b7bec 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    transition: background 0.3s, transform 0.18s, box-shadow 0.3s;
+}
+.tips-container .submit-btn:hover {
+    background: linear-gradient(135deg, #0b162f 60%, #355c7d 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 16px rgba(75,123,236,0.18);
+}
+.tips-container .back-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 18px;
+    background: rgba(75,123,236,0.10);
+    color: #e6eaf3;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.18s;
+    border: 1px solid rgba(75,123,236,0.10);
+}
+.tips-container .back-btn:hover {
+    background: rgba(75,123,236,0.18);
+    transform: scale(1.025);
+}
+</style>
+<div class="tips-page-container">
+    <div class="tips-container">
+        <h1>Interview Tips</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-control">
+                <textarea id="interview_tips" name="tip" placeholder="Write your interview tips here..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+        <a href="javascript:history.back()" class="back-btn">Back</a>
+    </div>
+</div>
+{% endblock %}

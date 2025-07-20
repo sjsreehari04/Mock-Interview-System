@@ -1,0 +1,187 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        .edit-bg {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            padding: 40px 0;
+        }
+
+        .edit-frame {
+            background: rgba(255,255,255,0.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.22);
+            padding: 28px 22px 18px 22px;
+            max-width: 370px;
+            width: 100%;
+            color: #283e6d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1.5px solid rgba(75,123,236,0.13);
+            animation: fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) both;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+
+        .edit-container {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            color: inherit;
+            background: none;
+            box-shadow: none;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .edit-container h1 {
+            text-align: center;
+            color: #355c7d;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(75,123,236,0.10);
+        }
+
+        .form-control,
+        .edit-container p {
+            margin-bottom: 13px;
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-control label,
+        .edit-container p label {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 600;
+            color: #355c7d;
+            font-size: 0.97rem;
+            letter-spacing: 0.2px;
+        }
+
+        .form-control input,
+        .form-control select,
+        .edit-container p input,
+        .edit-container p select {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+            padding: 10px 14px;
+            border: 1.5px solid #b8c7e0;
+            border-radius: 7px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.85);
+            color: #283e6d;
+            transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 1px 4px rgba(75,123,236,0.04);
+        }
+
+        .form-control input:focus,
+        .form-control select:focus,
+        .edit-container p input:focus,
+        .edit-container p select:focus {
+            border-color: #4b7bec;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 0 8px 0 rgba(75,123,236,0.13);
+        }
+
+        .save-btn, .back-btn {
+            width: 100%;
+            min-width: 0;
+            max-width: 320px;
+            box-sizing: border-box;
+            padding: 12px;
+            background: linear-gradient(135deg, #4b7bec 60%, #355c7d 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.08rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+            transition: background 0.3s, transform 0.18s, box-shadow 0.3s;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+            display: block;
+        }
+
+        .save-btn:hover {
+            background: linear-gradient(135deg, #355c7d 60%, #4b7bec 100%);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 16px rgba(75,123,236,0.18);
+        }
+
+        .back-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.18s;
+            margin-top: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-bg">
+        <div class="edit-frame">
+            <div class="edit-container">
+                <h1>Edit Profile</h1>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    <button type="submit" class="save-btn">Save Changes</button>
+                </form>
+                <a href="javascript:history.back()" class="back-btn">Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

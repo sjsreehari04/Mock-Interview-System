@@ -1,0 +1,170 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: none;
+        margin: 0;
+        padding: 0;
+        color: #e6eaf3;
+    }
+    .experts-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed !important;
+        background-size: cover !important;
+        padding: 60px 0 40px 0;
+        width: 100vw;
+    }
+    .experts-frame {
+        background: rgba(36, 44, 66, 0.98);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.18);
+        padding: 28px 22px 18px 22px;
+        max-width: 800px;
+        width: 100%;
+        color: #e6eaf3;
+        margin: 40px auto 0 auto;
+        border: 1.5px solid rgba(75,123,236,0.13);
+    }
+    .experts-frame h1 {
+        text-align: center;
+        color: #4b7bec;
+        margin-bottom: 18px;
+        font-size: 1.45rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    }
+    .search-bar {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    .search-bar input[type="text"] {
+        width: 70%;
+        padding: 10px;
+        border: 1.5px solid #4b7bec;
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+        background: rgba(245,247,250,0.13);
+        color: #e6eaf3;
+        transition: border-color 0.3s, background 0.3s;
+    }
+    .search-bar input[type="text"]:focus {
+        border-color: #a7bfff;
+        background: rgba(245,247,250,0.22);
+    }
+    .search-bar button {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+        transition: background 0.3s, transform 0.18s;
+    }
+    .search-bar button:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: scale(1.05);
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background: none;
+        color: #e6eaf3;
+        font-size: 1rem;
+    }
+    table th, table td {
+        padding: 10px;
+        border: 1px solid #3a4668;
+        text-align: left;
+    }
+    table th {
+        background: #4b7bec;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    table tr:nth-child(even) {
+        background: rgba(245,247,250,0.10);
+    }
+    table tr:nth-child(odd) {
+        background: rgba(44,54,74,0.10);
+    }
+    table tr:hover {
+        background: rgba(75,123,236,0.08);
+    }
+    .no-data {
+        text-align: center;
+        font-size: 16px;
+        color: #b8c7e0;
+    }
+    .back-btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 18px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.18s;
+        font-weight: 600;
+    }
+    .back-btn:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: scale(1.03);
+    }
+</style>
+<div class="experts-bg">
+    <div class="experts-frame">
+        <h1>Registered Experts</h1>
+        <form method="GET" class="search-bar">
+            <input type="text" name="search" placeholder="Search experts by name..." value="{{ request.GET.search }}">
+            <button type="submit">Search</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Field</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expert in experts %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ expert.name }}</td>
+                    <td>{{ expert.Login_id.email }}</td>
+                    <td>{{ expert.contact }}</td>
+                    <td>{{ expert.field}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="no-data">No experts found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="javascript:history.back()" class="back-btn">Back</a>
+    </div>
+</div>
+{% endblock %}

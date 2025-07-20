@@ -1,0 +1,337 @@
+{% extends "header2.html" %}
+{% load static %}
+{% block content %}
+<style>
+.expert-chat-bg {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+    padding-top: 80px;
+}
+.chat-container {
+    margin: 0 auto;
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    height: 75vh;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(28, 32, 48, 0.92);
+    box-shadow: 0 8px 32px 0 rgba(20, 24, 40, 0.13);
+    border: 1px solid rgba(60,90,140,0.18);
+}
+.contacts-card {
+    background: rgba(36, 44, 66, 0.98);
+    color: #e6eaf3;
+    width: 30%;
+    overflow-y: auto;
+    border-radius: 16px 0 0 16px;
+    border-right: 1px solid rgba(60,90,140,0.10);
+    display: flex;
+    flex-direction: column;
+}
+.contacts-card h4 {
+    margin: 0;
+    padding: 24px 0 12px 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+    background: rgba(44, 54, 74, 0.98);
+    color: #b8c7e0;
+}
+.contacts-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+.contacts-card li {
+    padding: 16px 24px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(60,90,140,0.08);
+    transition: background 0.2s, color 0.2s;
+}
+.contacts-card li:hover {
+    background: rgba(75,123,236,0.13);
+    color: #4b7bec;
+}
+.chat-box {
+    background: rgba(36, 44, 66, 0.92);
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 16px 16px 0;
+}
+.chat-header {
+    background: rgba(44, 54, 74, 0.98);
+    color: #e6eaf3;
+    padding: 18px 24px;
+    border-radius: 0 16px 0 0;
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.chat-messages {
+    flex: 1;
+    padding: 24px 24px 12px 24px;
+    overflow-y: auto;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.message {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 8px;
+    padding: 12px 18px 18px 18px;
+    border-radius: 10px;
+    max-width: 90%;
+    font-size: 1rem;
+    word-break: break-word;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    clear: both;
+    background: rgba(245,247,250,0.10);
+    color: #e6eaf3;
+}
+.message.sent {
+    background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+.message.sent::after {
+    content: "";
+    position: absolute;
+    right: -10px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #4b7bec;
+    border-left: 10px solid transparent;
+    border-bottom: 0 solid transparent;
+}
+.message.received {
+    background: rgba(245,247,250,0.13);
+    color: #e6eaf3;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+.message.received::after {
+    content: "";
+    position: absolute;
+    left: -10px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-top: 10px solid rgba(245,247,250,0.13);
+    border-right: 10px solid transparent;
+    border-bottom: 0 solid transparent;
+}
+.message small {
+    display: block;
+    position: static;
+    margin-top: 6px;
+    color: #b8c7e0;
+    font-size: 0.85em;
+    background: transparent;
+    padding: 0 2px;
+    opacity: 0.95;
+    z-index: 2;
+    white-space: normal;
+    text-align: right;
+}
+.message.sent small {
+    color: #c7e0ff;
+    text-align: right;
+}
+.message.received small {
+    color: #b8c7e0;
+    text-align: left;
+}
+.chat-footer {
+    padding: 18px 24px;
+    background: rgba(44, 54, 74, 0.98);
+    border-top: 1px solid rgba(60,90,140,0.10);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.chat-footer textarea {
+    width: 100%;
+    border: 1.5px solid #3a4668;
+    border-radius: 20px;
+    padding: 14px 16px;
+    font-size: 1rem;
+    background: rgba(245,247,250,0.13);
+    color: #e6eaf3;
+    resize: none;
+    transition: border-color 0.3s, background 0.3s;
+    margin-bottom: 0;
+    min-height: 48px;
+    max-height: 120px;
+}
+.chat-footer textarea::placeholder {
+    color: #7a869a;
+}
+.chat-footer textarea:focus {
+    border-color: #4b7bec;
+    background: rgba(245,247,250,0.22);
+    outline: none;
+}
+.send-btn {
+    background: linear-gradient(135deg, #4b7bec 60%, #355c7d 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 2px 8px rgba(75,123,236,0.10);
+}
+.send-btn:hover {
+    background: linear-gradient(135deg, #355c7d 60%, #4b7bec 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+@media (max-width: 900px) {
+    .chat-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 70vh;
+    }
+    .contacts-card, .chat-box {
+        width: 100%;
+        border-radius: 16px 16px 0 0;
+    }
+    .chat-box {
+        border-radius: 0 0 16px 16px;
+    }
+}
+</style>
+<div class="expert-chat-bg">
+    <div class="chat-container">
+        <!-- Contacts List -->
+        <div class="contacts-card">
+            <h4>Users</h4>
+            <ul id="users-list">
+                {% for user in users %}
+                <li onclick="loadChat({{ user.Login_id.id }}, '{{ user.name }}')">
+                    {{ user.name }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Chat Box -->
+        <div class="chat-box">
+            <div class="chat-header">
+                <span id="chat-title">Select a User to Chat</span>
+            </div>
+            <div class="chat-messages" id="chat-box">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="chat-footer">
+                <textarea id="message-input" placeholder="Type your message..."></textarea>
+                <button class="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let expertId = {{ expert_id }};
+    let userId = null;
+
+    // Load chat messages dynamically
+    function loadChat(uId, userName) {
+        userId = uId;
+        $('#chat-title').text(` ${userName}`);
+        $('#chat-box').html('<em>Loading...</em>');
+
+        fetch(`/get_chat_for_expert/${userId}/`)
+            .then(response => response.json())
+            .then(data => {
+                const chatBox = document.getElementById("chat-box");
+                chatBox.innerHTML = "";
+
+                data.forEach(chat => {
+                    const messageDiv = document.createElement("div");
+                    messageDiv.classList.add("message");
+
+                    if (chat.sender_id === expertId) {
+                        messageDiv.classList.add("sent");
+                    } else {
+                        messageDiv.classList.add("received");
+                    }
+
+                    messageDiv.innerHTML = `<div>${escapeHtml(chat.message)}</div><small>${escapeHtml(chat.timestamp)}</small>`;
+                    chatBox.appendChild(messageDiv);
+                });
+
+                chatBox.scrollTop = chatBox.scrollHeight;
+            })
+            .catch(error => {
+                console.error("Error fetching chat:", error);
+                alert("Failed to load chat");
+            });
+    }
+
+    // Send a message
+    function sendMessage() {
+        const message = $('#message-input').val().trim();
+        if (!message || !userId) {
+            alert('Please select a user and type a message.');
+            return;
+        }
+
+        $.ajax({
+            url: '/send_message_for_expert/',
+            method: 'POST',
+            headers: { 'X-CSRFToken': getCSRFToken() },
+            data: JSON.stringify({ user_id: userId, message: message }),
+            contentType: 'application/json',
+            success: function () {
+                const messageTime = new Date().toLocaleString();
+                const newMessage = `
+                    <div class="message sent">
+                        <div>${escapeHtml(message)}</div>
+                        <small>${escapeHtml(messageTime)}</small>
+                    </div>`;
+                $('#chat-box').append(newMessage);
+                $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+                $('#message-input').val('');
+            },
+            error: function () {
+                alert('Failed to send message.');
+            }
+        });
+    }
+
+    // Get CSRF token
+    function getCSRFToken() {
+        let cookieValue = null;
+        const cookies = document.cookie.split(';');
+        cookies.forEach(cookie => {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') {
+                cookieValue = value;
+            }
+        });
+        return cookieValue;
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+</script>
+{% endblock %}

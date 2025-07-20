@@ -1,0 +1,122 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: none;
+        margin: 0;
+        padding: 0;
+        color: #e6eaf3;
+    }
+
+    .tips-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed !important;
+        background-size: cover !important;
+        padding: 32px 0 32px 0;
+        width: 100vw;
+    }
+
+    .tips-frame {
+        background: rgba(36, 44, 66, 0.98);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.18);
+        padding: 22px 18px 14px 18px;
+        max-width: 800px;
+        width: 100%;
+        color: #e6eaf3;
+        margin: 32px auto 0 auto;
+        border: 1.5px solid rgba(75,123,236,0.13);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tips-frame h1 {
+        text-align: center;
+        color: #4b7bec;
+        margin-bottom: 16px;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px rgba(75,123,236,0.10);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background: none;
+        color: #e6eaf3;
+        font-size: 1rem;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(44,54,74,0.10);
+    }
+
+    table th, table td {
+        padding: 12px 10px;
+        border: 1px solid #3a4668;
+        text-align: left;
+    }
+
+    table th {
+        background: #4b7bec;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        font-size: 1.05rem;
+    }
+
+    table tr:nth-child(even) {
+        background: rgba(245,247,250,0.10);
+    }
+
+    table tr:nth-child(odd) {
+        background: rgba(44,54,74,0.10);
+    }
+
+    table tr:hover {
+        background: rgba(75,123,236,0.08);
+    }
+
+    .no-data {
+        text-align: center;
+        font-size: 1rem;
+        color: #b8c7e0;
+    }
+</style>
+<div class="tips-bg">
+    <div class="tips-frame">
+        <h1>Interview Tips</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tip</th>
+                    <th>Expert</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tip in tips %}
+                <tr>
+                    <td>{{ tip.tip }}</td>
+                    <td>{{ tip.expert.name }}</td>
+                    <td>{{ tip.date_created|date:"d M Y, h:i A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="no-data">No tips available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

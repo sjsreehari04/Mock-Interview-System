@@ -1,0 +1,112 @@
+{% extends "header2.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .expert-profile-bg {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url("{% static 'user/assets/images/background/4.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        padding: 40px 0;
+    }
+    .profile-frame {
+        background: rgba(36, 44, 66, 0.98);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(44, 54, 74, 0.18);
+        padding: 22px 18px 14px 18px;
+        max-width: 340px;
+        width: 100%;
+        color: #e6eaf3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1.5px solid rgba(75,123,236,0.13);
+    }
+    .profile-container {
+        width: 100%;
+        color: inherit;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .profile-container h1 {
+        text-align: center;
+        color: #4b7bec;
+        margin-bottom: 10px;
+        font-size: 1.18rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        padding: 0;
+    }
+    .profile-details {
+        margin-bottom: 10px;
+        border-top: 1px solid #3a4668;
+        padding-top: 10px;
+        padding-bottom: 0;
+    }
+    .profile-details p {
+        margin: 8px 0;
+        font-size: 15px;
+        color: #b8c7e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2px;
+    }
+    .profile-details p span {
+        font-weight: 600;
+        color: #e6eaf3;
+        margin-right: 8px;
+        min-width: 80px;
+        display: inline-block;
+        font-size: 15px;
+    }
+    .edit-btn, .back-btn {
+        display: block;
+        width: 100%;
+        padding: 7px;
+        background: linear-gradient(135deg, #4b7bec 60%, #283e6d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.08rem;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.18s;
+        margin-top: 7px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    .edit-btn:hover, .back-btn:hover {
+        background: linear-gradient(135deg, #283e6d 60%, #4b7bec 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+</style>
+<div class="expert-profile-bg">
+    <div class="profile-frame">
+        <div class="profile-container">
+            <h1>Expert Profile</h1>
+            <div class="profile-details">
+                <p><span>Name:</span> {{ user.name }}</p>
+                <p><span>Email:</span> {{ user.Login_id.email }}</p>
+                <p><span>Gender:</span> {{ user.gender }}</p>
+                <p><span>Date of Birth:</span> {{ user.dob }}</p>
+                <p><span>Contact:</span> {{ user.contact }}</p>
+                <p><span>Field:</span> {{ user.field }}</p>
+                <p><span>Experience:</span> {{ user.experience }}</p>
+            </div>
+            <a href="{% url 'editexpert' %}" class="edit-btn">Edit Profile</a>
+            <a href="{% url 'experthome' %}" class="back-btn">Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

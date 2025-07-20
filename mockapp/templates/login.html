@@ -1,0 +1,182 @@
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Hu2AKSgDJ2CKqbnQ8vV0Hw2IRZVJrxC+8eY4UVcw2l1qsEYvPEaLZ6C6Usa7y9b4s3yOo9zC4+/zLlt3cRzGZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    body, html {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #0f172a;
+        height: 100%;
+        overflow: hidden;
+        color: #f8fafc;
+    }
+
+    .login-bg {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(15,23,42,0.95)),
+                    url('https://images.unsplash.com/photo-1581090700227-1e8e967df6a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1650&q=80')
+                    no-repeat center center fixed;
+        background-size: cover;
+        padding: 20px;
+    }
+
+    .login-frame {
+        background-color: rgba(31, 41, 55, 0.95);
+        padding: 40px;
+        border-radius: 14px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-container h1 {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 600;
+        color: #f8fafc;
+        margin-bottom: 24px;
+    }
+
+    .form-control {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-control label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #cbd5e1;
+    }
+
+    .form-control i {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: #64748b;
+    }
+
+    .form-control input {
+        width: 100%;
+        padding: 12px 12px 12px 38px;
+        border: 1px solid #475569;
+        border-radius: 8px;
+        font-size: 14px;
+        background-color: #1e293b;
+        color: #f8fafc;
+    }
+
+    .form-control input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background-color: #334155;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    }
+
+    .form-control input:-webkit-autofill,
+    .form-control input:-webkit-autofill:focus,
+    .form-control input:-webkit-autofill:hover,
+    .form-control input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 100px #1e293b inset !important;
+        -webkit-text-fill-color: #f8fafc !important;
+        background-color: #1e293b !important;
+        color: #f8fafc !important;
+        border-radius: 8px;
+    }
+
+    .login-btn, .preview-btn {
+        width: 100%;
+        padding: 12px;
+        background-image: linear-gradient(135deg, #3b82f6, #6366f1);
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .preview-btn {
+        background-image: linear-gradient(135deg, #111827, #1f2937);
+        color: #cbd5e1;
+        border: 1px solid #334155;
+    }
+
+    .login-btn:hover, .preview-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(59, 130, 246, 0.35);
+    }
+
+    .preview-btn:hover {
+        background-image: linear-gradient(135deg, #1f2937, #111827);
+        color: #f8fafc;
+    }
+
+    .forgot-password {
+        text-align: center;
+        margin-top: 12px;
+    }
+
+    .forgot-password a {
+        color: #93c5fd;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .forgot-password a:hover {
+        text-decoration: underline;
+        color: #bfdbfe;
+    }
+</style>
+
+<div class="login-bg">
+    <div class="login-frame">
+        <div class="login-container">
+            <h1>MOCK INTERVIEW SYSTEM</h1>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == "error" and not request.POST %}
+                        <script>
+                            alert("{{ message|escapejs }}");
+                        </script>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-control input-icon">
+                    <label for="email">Email</label>
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-control input-icon">
+                    <label for="password">Password</label>
+                    <i class="fa fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <!-- <a href="/dashboard/"> -->
+                    <!-- <button type="button" class="preview-btn">👁 Preview Dashboard</button> -->
+                <!-- </a> -->
+                <div class="forgot-password">
+                    <a href="../register">Don't have an account? Sign up</a>
+                </div>
+                <div class="forgot-password">
+                    <a href="../expert">Are you an Expert?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

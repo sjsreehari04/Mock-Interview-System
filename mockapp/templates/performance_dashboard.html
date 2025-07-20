@@ -1,0 +1,146 @@
+{% extends "header.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Mock Interview Performance Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .table-container, .chart-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container my-5" style="margin-top: 100px; min-height: 80vh;">
+  <h2 class="text-center mb-4" style="font-weight:700; color:#0d6efd;">Performance Summary by Category</h2>
+  <div class="table-container">
+    {% if summary %}
+      <table class="table table-hover table-bordered align-middle">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>Category</th>
+            <th>Avg Speech (%)</th>
+            <th>Avg Facial (%)</th>
+            <th>Avg Combined (%)</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          {% for item in summary %}
+          <tr>
+            <td>{{ item.question_category }}</td>
+            <td>{{ item.avg_speech|floatformat:1 }}</td>
+            <td>{{ item.avg_facial|floatformat:1 }}</td>
+            <td>{{ item.avg_combined|floatformat:1 }}</td>
+            <td>
+              {% if item.verdict == "Needs Improvement" %}
+                <span class="badge bg-danger">{{ item.verdict }}</span>
+              {% elif item.verdict == "Good Work" %}
+                <span class="badge bg-warning text-dark">{{ item.verdict }}</span>
+              {% else %}
+                <span class="badge bg-success">{{ item.verdict }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="alert alert-info text-center">
+        No performance data available. Complete a mock interview to see your summary here.
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="chart-container">
+    <canvas id="progressChart"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="categoryChart"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Progress over time
+  const labels = [{% for s in scores reversed %}"{{ s.created_at|date:'Y-m-d H:i' }}",{% endfor %}];
+  const speechData = [{% for s in scores reversed %}{{ s.speech_confidence|floatformat:1 }},{% endfor %}];
+  const facialData = [{% for s in scores reversed %}{{ s.facial_confidence|floatformat:1 }},{% endfor %}];
+  const combinedData = [{% for s in scores reversed %}{{ s.combined_confidence|floatformat:1 }},{% endfor %}];
+
+  const ctx1 = document.getElementById('progressChart').getContext('2d');
+  new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: 'Speech Confidence', data: speechData, borderColor: '#0d6efd', backgroundColor: 'rgba(13,110,253,0.05)', pointBackgroundColor: '#0d6efd', tension: 0.4, fill: true },
+        { label: 'Facial Confidence', data: facialData, borderColor: '#198754', backgroundColor: 'rgba(25,135,84,0.05)', pointBackgroundColor: '#198754', tension: 0.4, fill: true },
+        { label: 'Combined Confidence', data: combinedData, borderColor: '#6f42c1', backgroundColor: 'rgba(111,66,193,0.05)', pointBackgroundColor: '#6f42c1', tension: 0.4, fill: true }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: 'Your Confidence Progress Over Time', font: { size: 20, weight: 'bold' } },
+        legend: { position: 'bottom' }
+      },
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        y: { min: 0, max: 100, title: { display: true, text: 'Confidence (%)' } },
+        x: { title: { display: true, text: 'Date & Time' }, ticks: { maxRotation: 45, minRotation: 30, autoSkip: true, maxTicksLimit: 10 } }
+      }
+    }
+  });
+
+  // Category-level averages
+  const categoryLabels = [{% for s in summary %}"{{ s.question_category }}",{% endfor %}];
+  const avgCombinedData = [{% for s in summary %}{{ s.avg_combined|floatformat:1 }},{% endfor %}];
+
+  const ctx2 = document.getElementById('categoryChart').getContext('2d');
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: categoryLabels,
+      datasets: [
+        {
+          label: 'Average Combined Confidence (%)',
+          data: avgCombinedData,
+          backgroundColor: categoryLabels.map((_, i) => ['#dc3545', '#ffc107', '#198754'][i % 3]) // alternating colors
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: 'Average Combined Confidence by Category', font: { size: 20, weight: 'bold' } },
+        legend: { display: false }
+      },
+      scales: {
+        y: { min: 0, max: 100, title: { display: true, text: 'Confidence (%)' } },
+        x: { title: { display: true, text: 'Category' } }
+      }
+    }
+  });
+</script>
+</body>
+</html>
+{% endblock %}
+<footer class="py-4 bg-light mt-auto" style="z-index:10; position:relative;">
+  <div class="container text-center">
+    <span class="text-muted">&copy; 2025 Mock Interview System. All rights reserved.</span>
+  </div>
+</footer>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Interview Tips</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6D58FF, #362A89);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .tips-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 600px;
+            color: #333;
+        }
+
+        .tips-container h1 {
+            text-align: center;
+            color: #6D58FF;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .form-control {
+            margin-bottom: 20px;
+        }
+
+        .form-control label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #404660;
+        }
+
+        .form-control textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            height: 150px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control textarea:focus {
+            border-color: #6D58FF;
+            box-shadow: 0 0 8px rgba(109, 88, 255, 0.5);
+            outline: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6D58FF, #362A89);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #362A89, #6D58FF);
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #ccc;
+            color: #333;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: #bbb;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="tips-container">
+        <h1>Enter Interview Tips</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-control">
+                <label for="interview_tips">Interview Tips</label>
+                <textarea id="interview_tips" name="interview_tips" placeholder="Write your interview tips here..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Tips</button>
+        </form>
+        <a href="javascript:history.back()" class="back-btn">Back</a>
+    </div>
+</body>
+</html>

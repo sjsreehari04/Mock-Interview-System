@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Tip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b, #f06595);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            background: #fff;
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        blockquote {
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 5px solid #ff6b6b;
+            margin: 20px 0;
+            color: #555;
+            border-radius: 5px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .btn-delete {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        .btn-delete:hover {
+            background: #e63946;
+            transform: scale(1.05);
+        }
+
+        .btn-cancel {
+            background: #ccc;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #bbb;
+            transform: scale(1.05);
+        }
+
+        .btn-home {
+            background: #6D58FF;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        .btn-home:hover {
+            background: #5a47d1;
+            transform: scale(1.05);
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Delete Tip</h1>
+        <p>Are you sure you want to delete this tip?</p>
+        <blockquote>{{ tip.tip }}</blockquote>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-delete">Yes, Delete</button>
+            <a href="{% url 'tipview' %}" class="btn btn-cancel">Cancel</a><br>
+            <a href="{% url 'tipview' %}" class="btn btn-home">view Tip</a>
+        </form>
+        <a href="{% url 'experthome' %}" class="btn btn-home">Home</a>
+    </div>
+</body>
+</html>
